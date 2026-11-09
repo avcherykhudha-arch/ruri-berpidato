@@ -1,0 +1,6 @@
+{
+  "name": "SPEECH COACH - PIDATO HARI PAHLAWAN 2026",
+  "description": "Platform latihan pidato interaktif Bu Guru Ruri Okvawani sebagai Pembina Upacara Hari Pahlawan Nasional 2026 di SMAS Tunas Baru Jin Seung Batam.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
