@@ -64,10 +64,19 @@ export function useSpeechAudio(): UseSpeechAudioReturn {
       const voices = window.speechSynthesis.getVoices();
       if (!voices || voices.length === 0) return;
 
-      setAvailableVoices(voices);
+      // Prioritize Indonesian voices at the top
+      const sortedVoices = [...voices].sort((a, b) => {
+        const aIsId = a.lang.toLowerCase().startsWith('id');
+        const bIsId = b.lang.toLowerCase().startsWith('id');
+        if (aIsId && !bIsId) return -1;
+        if (!aIsId && bIsId) return 1;
+        return a.name.localeCompare(b.name);
+      });
+
+      setAvailableVoices(sortedVoices);
 
       // Look for id-ID (Indonesian)
-      const idVoice = voices.find(v => v.lang.startsWith('id') || v.lang.toLowerCase().includes('indonesia'));
+      const idVoice = sortedVoices.find(v => v.lang.toLowerCase().startsWith('id') || v.lang.toLowerCase().includes('indonesia'));
       if (idVoice) {
         setIndonesianVoiceFound(true);
         if (!selectedVoiceURIRef.current) {
@@ -75,8 +84,8 @@ export function useSpeechAudio(): UseSpeechAudioReturn {
         }
       } else {
         setIndonesianVoiceFound(false);
-        // Fallback to default or English
-        const fallback = voices.find(v => v.default) || voices[0];
+        // Fallback to default or first available
+        const fallback = sortedVoices.find(v => v.default) || sortedVoices[0];
         if (fallback && !selectedVoiceURIRef.current) {
           setSelectedVoiceURI(fallback.voiceURI);
         }

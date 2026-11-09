@@ -193,8 +193,8 @@ export const AudioController: React.FC<AudioControllerProps> = ({
               onChange={(e) => onSelectVoice(e.target.value)}
               className="bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded px-2 py-1 text-slate-800 dark:text-slate-200 text-xs focus:ring-1 focus:ring-red-500 focus:outline-hidden max-w-xs truncate"
             >
-              {availableVoices.map((v) => (
-                <option key={v.voiceURI} value={v.voiceURI}>
+              {availableVoices.map((v, idx) => (
+                <option key={`voice-${idx}-${v.voiceURI || v.name}-${v.lang}`} value={v.voiceURI}>
                   {v.name} ({v.lang})
                 </option>
               ))}
